@@ -1,36 +1,37 @@
 # 🚀 Action Types Applicatie
 
-Deze webapplicatie is ontwikkeld voor WP3 en stelt studenten in staat om hun action type te bepalen door stellingen te beantwoorden. Daarnaast biedt de applicatie een beheerdersinterface voor docenten.
+Deze webapplicatie is ontwikkeld om studenten te helpen hun **Action Type** te bepalen door stellingen te beantwoorden. Daarnaast biedt de applicatie een **beheerdersinterface voor docenten** om studenten en resultaten te beheren.
 
 ---
 
 ## 📌 Functionaliteiten
 
-- ✅ **Studenten:**
-  - Beantwoorden van stellingen om hun action type te bepalen.
-  - Bekijken van hun persoonlijke resultaten.
-- ✅ **Docenten:**
-  - Beheer van studenten (toevoegen, bewerken, verwijderen).
-  - Aanmaken en beheren van teams en het indelen van studenten.
-  - Bekijken en exporteren van resultaten.
-  - Toevoegen van andere docenten met beheerdersrechten.
+### 👩‍🎓 Studenten
+- Beantwoorden van stellingen om hun **Action Type** te bepalen.
+- Bekijken van hun **persoonlijke resultaten**.
+
+### 🧑‍🏫 Docenten
+- **Studenten beheren** (toevoegen, bewerken, verwijderen).
+- **Teams aanmaken en studenten indelen**.
+- **Resultaten bekijken en exporteren**.
+- **Andere docenten toevoegen met beheerdersrechten**.
 
 ---
 
 ## ⚙️ Installatie
 
-### 📌 Vereisten
+### 🔧 Vereisten
 - **Python 3.11 of hoger**
 
-### 📌 Stappenplan
+### 📥 Installatiestappen
 
-1️⃣ **Clone de repository:**
+1️⃣ **Clone de repository**:
 ```bash
-git clone https://github.com/Rac-Software-Development/inhaal-wp3-actiontypes-thomas-1064763
-cd inhaal-wp3-actiontypes-thomas-1064763
+git clone https://github.com/thomasvermeulen/action-types
+cd action-types-app
 ```
 
-2️⃣ **Maak een virtuele omgeving aan en activeer deze:**
+2️⃣ **Maak een virtuele omgeving aan en activeer deze**:
 ```bash
 python -m venv venv
 # Op Windows:
@@ -39,19 +40,18 @@ python -m venv venv
 source venv/bin/activate
 ```
 
-3️⃣ **Installeer de benodigde dependencies:**
+3️⃣ **Installeer de benodigde dependencies**:
 ```bash
 pip install -r requirements.txt
 ```
 
-4️⃣ **Start de applicatie:**
+4️⃣ **Start de applicatie**:
 ```bash
 python run.py
 ```
-
 📌 **De applicatie is nu beschikbaar op:** `http://localhost:5000`
 
-5️⃣ **Als admin inloggen:**
+5️⃣ **Als admin inloggen**:
 - **URL:** `http://localhost:5000/admin/login`
 - **Gebruikersnaam:** `admin`
 - **Wachtwoord:** `admin123`
@@ -61,7 +61,7 @@ python run.py
 ## 📁 Structuur
 
 De applicatie volgt een **MVC-architectuur**:
-```
+```bash
 app/
 ├── controllers/    # Route handlers en businesslogica
 ├── models/         # Database modellen
@@ -83,23 +83,23 @@ De applicatie gebruikt **SQLite** en genereert automatisch de database bij het e
 ---
 
 ## 🔒 Veiligheid
-- **Wachtwoorden worden gehasht opgeslagen.**
+- **Wachtwoorden worden veilig gehasht opgeslagen**.
 - **Alleen ingelogde docenten** hebben toegang tot het beheerderspaneel.
-- **Studenten kunnen alleen hun eigen resultaten zien.**
+- **Studenten kunnen alleen hun eigen resultaten zien**.
 
 ---
 
 ## 📸 Screenshots
 
-Dashboard:
+### 🎯 Dashboard
 ![Dashboard](app/static/images/screenshot_dashboard.png)
 
-Vragenlijst:
+### ❓ Vragenlijst
 ![Questions](app/static/images/screenshot_questions.png)
 
 ---
 
-## 📚 Gebruikte Libraries
+## 📚 Gebruikte Technologieën
 
 - **Backend:** Flask, Flask-SQLAlchemy, Flask-WTF, SQLite
 - **Frontend:** Jinja2, Bootstrap, JavaScript
@@ -107,9 +107,10 @@ Vragenlijst:
 
 ---
 
-## 📖 Bronnenlijst
+## 📖 Bronnen
 
-- **Achtergrondafbeeldingen:** [https://4kwallpapers.com/](https://4kwallpapers.com/)
-- **Fonts:** [https://fonts.google.com/](https://fonts.google.com/)
+- **Achtergrondafbeeldingen:** [4K Wallpapers](https://4kwallpapers.com/)
+- **Fonts:** [Google Fonts](https://fonts.google.com/)
 
+👨‍💻 **Gemaakt door Thomas Vermeulen**. Feedback en pull requests zijn altijd welkom! 🚀
 
