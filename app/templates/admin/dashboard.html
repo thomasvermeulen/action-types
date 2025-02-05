@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Action Types Beheer{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h1>Action Types Dashboard</h1>
+    <div class="admin-nav">
+        <a href="#" id="add-student-button">
+            <span>👤</span> Student toevoegen
+        </a>
+        <a href="#" id="add-teacher-button">
+            <span>👨‍🏫</span> Docent toevoegen
+        </a>
+        <a href="{{ url_for('admin.logout') }}">
+            <span>🚪</span> Uitloggen
+        </a>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="filters">
+    <div class="filter-group">
+        <label for="class-filter">Klas</label>
+        <select id="class-filter">
+            <option value="">Alle klassen</option>
+            {% for class in classes %}
+                <option value="{{ class }}" {% if request.args.get('class') == class %}selected{% endif %}>
+                    {{ class }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="filter-group">
+        <label for="team-filter">Team</label>
+        <select id="team-filter">
+            <option value="">Alle teams</option>
+            {% for team in teams %}
+                <option value="{{ team }}" {% if request.args.get('team') == team %}selected{% endif %}>
+                    {{ team }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="export-button-container">
+    <a href="{{ url_for('admin.export_csv', class=request.args.get('class', ''), team=request.args.get('team', '')) }}" 
+       class="export-button">
+        <span>📥</span> Exporteer naar CSV
+    </a>
+</div>
+
+<div class="table-container">
+    <table class="students-table">
+        <thead>
+            <tr>
+                <th>Studentnummer</th>
+                <th>Naam</th>
+                <th>Klas</th>
+                <th>Team</th>
+                <th>Action Type</th>
+                <th>Acties</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.student_number }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.student_class }}</td>
+                <td>{{ student.team or '-' }}</td>
+                <td>{{ student.action_type or '-' }}</td>
+                <td class="actions">
+                    <button class="icon-button edit-student" 
+                            title="Wijzig student"
+                            data-student-number="{{ student.student_number }}" 
+                            data-name="{{ student.name }}" 
+                            data-class="{{ student.student_class }}" 
+                            data-team="{{ student.team or '' }}">
+                        ✏️
+                    </button>
+                    <button class="icon-button view-statements" 
+                            title="Bekijk stellingen"
+                            data-student-number="{{ student.student_number }}">
+                        📜
+                    </button>
+                    <form method="POST" action="{{ url_for('admin.delete_student', student_number=student.student_number) }}" 
+                          style="display: inline;">
+                        <button type="submit" class="icon-button" title="Verwijder student">❌</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination">
+    <div class="pagination-info">
+        Tonen {{ (page - 1) * per_page + 1 }} t/m {{ min(page * per_page, total_students) }} van {{ total_students }} studenten
+    </div>
+    <div class="pagination-buttons">
+        {% if page > 1 %}
+        <a href="{{ url_for('admin.dashboard', page=page-1, class=request.args.get('class', ''), team=request.args.get('team', '')) }}" 
+           class="pagination-button">
+            Vorige
+        </a>
+        {% endif %}
+        
+        {% if has_next %}
+        <a href="{{ url_for('admin.dashboard', page=page+1, class=request.args.get('class', ''), team=request.args.get('team', '')) }}" 
+           class="pagination-button">
+            Volgende {{ per_page }}
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<div id="add-student-form" class="side-form">
+    <h2>Student Toevoegen</h2>
+    <form method="POST" action="{{ url_for('admin.add_student') }}">
+        <div class="form-group">
+            <label for="student_number">Studentnummer</label>
+            <input type="number" id="student_number" name="student_number" required>
+        </div>
+        <div class="form-group">
+            <label for="student_name">Naam</label>
+            <input type="text" id="student_name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="student_class">Klas</label>
+            <input type="text" id="student_class" name="student_class" required>
+        </div>
+        <button type="submit">Toevoegen</button>
+        <button type="button" class="cancel-button" id="cancel-student">Annuleren</button>
+    </form>
+</div>
+
+<div id="add-teacher-form" class="side-form">
+    <h2>Docent Toevoegen</h2>
+    <form method="POST" action="{{ url_for('admin.add_teacher') }}">
+        <div class="form-group">
+            <label for="username">Gebruikersnaam</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="teacher_name">Naam</label>
+            <input type="text" id="teacher_name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Wachtwoord</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="is_admin"> Admin rechten
+            </label>
+        </div>
+        <button type="submit">Toevoegen</button>
+        <button type="button" class="cancel-button" id="cancel-teacher">Annuleren</button>
+    </form>
+</div>
+
+<div id="edit-student-form" class="side-form">
+    <h2>Student Wijzigen</h2>
+    <form method="POST" id="edit-student-form-action">
+        <input type="hidden" id="edit-student-number" name="student_number">
+        <div class="form-group">
+            <label for="edit-student-name">Naam</label>
+            <input type="text" id="edit-student-name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="edit-student-class">Klas</label>
+            <input type="text" id="edit-student-class" name="student_class" required>
+        </div>
+        <div class="form-group">
+            <label for="edit-student-team">Team</label>
+            <input type="text" id="edit-student-team" name="team">
+        </div>
+        <button type="submit">Wijzigen</button>
+        <button type="button" class="cancel-button" id="cancel-edit">Annuleren</button>
+    </form>
+</div>
+
+<div id="statements-modal" class="modal">
+    <div class="modal-content">
+        <h2>Gegeven Antwoorden</h2>
+        <ul id="statements-list"></ul>
+        <button id="close-statements" class="cancel-button">Sluiten</button>
+    </div>
+</div>
+{% endblock %}

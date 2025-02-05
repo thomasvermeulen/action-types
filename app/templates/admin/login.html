@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Action Types Beheer{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h1>Action Types Beheer</h1>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <div class="flash-message error">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <form method="POST" action="{{ url_for('admin.login') }}" class="login-form">
+        <div class="form-group">
+            <label for="username">Gebruikersnaam</label>
+            <input type="text" id="username" name="username" required 
+                   autocomplete="username" autofocus>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Wachtwoord</label>
+            <input type="password" id="password" name="password" required
+                   autocomplete="current-password">
+        </div>
+        
+        <button type="submit">Inloggen</button>
+    </form>
+</div>
+{% endblock %}
